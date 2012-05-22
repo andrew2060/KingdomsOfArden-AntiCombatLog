@@ -6,15 +6,22 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
+import org.bukkit.event.player.PlayerKickEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 
 import com.herocraftonline.heroes.Heroes;
 import com.herocraftonline.heroes.characters.Hero;
+import com.herocraftonline.heroes.characters.effects.CombatEffect.LeaveCombatReason;
 public class HeroesCombatLogListener implements Listener{
-	private Heroes heroes = (Heroes)Bukkit.
-			getServer().
-			getPluginManager().
-			getPlugin("Heroes");
+	private Heroes heroes = (Heroes)Bukkit.getServer().getPluginManager().getPlugin("Heroes");
+	@EventHandler(priority=EventPriority.HIGHEST)
+	public void onPlayerKick(PlayerKickEvent event) {
+		Hero h = heroes.getCharacterManager().getHero(event.getPlayer());
+		if(h.isInCombat() == true) {
+			h.leaveCombat(LeaveCombatReason.LOGOUT);
+			return;
+		}
+	}
 
 	@EventHandler(priority=EventPriority.NORMAL)
 	public void onPlayerQuit(PlayerQuitEvent event) {
