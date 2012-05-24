@@ -2,6 +2,8 @@ package net.swagserv.andrew2060.anticombatlog;
 
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
+import org.bukkit.entity.LivingEntity;
+import org.bukkit.entity.Monster;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
@@ -27,18 +29,26 @@ public class HeroesCombatLogListener implements Listener{
 	public void onPlayerQuit(PlayerQuitEvent event) {
 		Player p = event.getPlayer();
 		Hero h = heroes.getCharacterManager().getHero(event.getPlayer());
+		LivingEntity targetentity = h.getCombatEffect().getLastCombatant();
 		boolean combatcheck = h.isInCombat();
+		
 		if (combatcheck == false) {
 			return;
 		}
 		else {
-			p.damage(1000);
-			p.setHealth(0);
-			h.setHealth(0);
-			h.syncHealth();
-			h.syncExperience();		
-			Bukkit.getServer().broadcastMessage(ChatColor.AQUA + "[" + ChatColor.RED + "NOTICE" + ChatColor.AQUA + "]: " + p.getName() + " just CombatLogged and dropped their items!");
+			if(targetentity instanceof Monster) {
+				h.leaveCombat(LeaveCombatReason.LOGOUT);
+				return;
 			}
+			else {
+				p.damage(1000);
+				p.setHealth(0);
+				h.setHealth(0);
+				h.syncHealth();
+				h.syncExperience();		
+				Bukkit.getServer().broadcastMessage(ChatColor.AQUA + "[" + ChatColor.RED + "NOTICE" + ChatColor.AQUA + "]: " + p.getName() + " just CombatLogged and dropped their items!");
+			}
+		}
 		
 	}
 
