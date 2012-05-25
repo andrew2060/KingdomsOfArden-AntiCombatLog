@@ -8,5 +8,6 @@ public class AntiCombatLog extends JavaPlugin{
 
 	public void onEnable() {
 		Bukkit.getServer().getPluginManager().registerEvents(new HeroesCombatLogListener(), this);
+		Bukkit.getServer().getPluginManager().registerEvents(new CombatCommandListener() , this);
 	}
 }
