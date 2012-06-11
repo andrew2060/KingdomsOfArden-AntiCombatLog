@@ -3,7 +3,6 @@ package net.swagserv.andrew2060.anticombatlog;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.LivingEntity;
-import org.bukkit.entity.Monster;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
@@ -15,6 +14,8 @@ import com.herocraftonline.heroes.Heroes;
 import com.herocraftonline.heroes.characters.Hero;
 import com.herocraftonline.heroes.characters.effects.CombatEffect.LeaveCombatReason;
 public class HeroesCombatLogListener implements Listener{
+	public static boolean ess;
+	AntiCombatLog plugin;
 	private Heroes heroes = (Heroes)Bukkit.getServer().getPluginManager().getPlugin("Heroes");
 	@EventHandler(priority=EventPriority.HIGHEST)
 	public void onPlayerKick(PlayerKickEvent event) {
@@ -36,20 +37,24 @@ public class HeroesCombatLogListener implements Listener{
 			return;
 		}
 		else {
-			if(targetentity instanceof Monster) {
-				h.leaveCombat(LeaveCombatReason.LOGOUT);
-				return;
-			}
-			else {
+			if (targetentity instanceof Player){
+				String target = ((Player) targetentity).getName();
 				p.damage(1000);
 				p.setHealth(0);
 				h.setHealth(0);
 				h.syncHealth();
 				h.syncExperience();		
-				Bukkit.getServer().broadcastMessage(ChatColor.AQUA + "[" + ChatColor.RED + "NOTICE" + ChatColor.AQUA + "]: " + p.getName() + " just CombatLogged and dropped their items!");
+				Bukkit.getServer().broadcastMessage(ChatColor.AQUA + "[" + ChatColor.RED + "NOTICE" + ChatColor.AQUA + "]: " + p.getName() + " just CombatLogged against " + target + " and dropped their items!");
+				if(ess = true) {
+					Bukkit.getServer().dispatchCommand(Bukkit.getServer().getConsoleSender(), "mail send " + p.getName() + " you were killed for combat-logging!");
+					return;
+				}
+				return;
+			}
+			else {
+				h.leaveCombat(LeaveCombatReason.LOGOUT);
+				return;
 			}
 		}
-		
 	}
-
 }
