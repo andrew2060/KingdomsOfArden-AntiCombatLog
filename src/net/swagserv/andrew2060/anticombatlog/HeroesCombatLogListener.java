@@ -7,9 +7,11 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
+import org.bukkit.event.entity.PlayerDeathEvent;
 import org.bukkit.event.player.PlayerKickEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 
+import com.earth2me.essentials.Essentials;
 import com.herocraftonline.heroes.Heroes;
 import com.herocraftonline.heroes.characters.Hero;
 import com.herocraftonline.heroes.characters.effects.CombatEffect.LeaveCombatReason;
@@ -17,13 +19,22 @@ public class HeroesCombatLogListener implements Listener{
 	public static boolean ess;
 	AntiCombatLog plugin;
 	private Heroes heroes = (Heroes)Bukkit.getServer().getPluginManager().getPlugin("Heroes");
+	private Essentials essentials = (Essentials)Bukkit.getServer().getPluginManager().getPlugin("Essentials");
 	@EventHandler(priority=EventPriority.HIGHEST)
 	public void onPlayerKick(PlayerKickEvent event) {
 		Hero h = heroes.getCharacterManager().getHero(event.getPlayer());
 		if(h.isInCombat() == true) {
 			h.leaveCombat(LeaveCombatReason.LOGOUT);
 			return;
-		}
+		} 
+	}
+	@EventHandler(priority=EventPriority.HIGHEST)
+	public void onPlayerDeath(PlayerDeathEvent event) {
+		Hero h = heroes.getCharacterManager().getHero(event.getEntity());
+		if(h.isInCombat()) {
+			h.leaveCombat(LeaveCombatReason.DEATH);
+			return;
+		} 
 	}
 
 	@EventHandler(priority=EventPriority.NORMAL)
@@ -33,7 +44,7 @@ public class HeroesCombatLogListener implements Listener{
 		LivingEntity targetentity = h.getCombatEffect().getLastCombatant();
 		boolean combatcheck = h.isInCombat();
 		
-		if (combatcheck == false) {
+		if (!combatcheck) {
 			return;
 		}
 		else {
@@ -45,8 +56,8 @@ public class HeroesCombatLogListener implements Listener{
 				h.syncHealth();
 				h.syncExperience();		
 				Bukkit.getServer().broadcastMessage(ChatColor.AQUA + "[" + ChatColor.RED + "NOTICE" + ChatColor.AQUA + "]: " + p.getName() + " just CombatLogged against " + target + " and dropped their items!");
-				if(ess = true) {
-					Bukkit.getServer().dispatchCommand(Bukkit.getServer().getConsoleSender(), "mail send " + p.getName() + " you were killed for combat-logging!");
+				if(ess == true) {
+					essentials.getUser(p).addMail("You were automatically killed for pvp logging against " + target + "!");
 					return;
 				}
 				return;

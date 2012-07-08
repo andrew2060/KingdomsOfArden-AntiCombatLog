@@ -21,10 +21,13 @@ public class CombatCommandListener implements Listener {
 		LivingEntity targetentity = h.getCombatEffect().getLastCombatant();
 
 		if(h.isInCombat() == false) {
-			return;
+			return; 
 		}
 		else {
 			if(targetentity instanceof Monster) {
+				return;
+			}
+			else if (event.getMessage().contains("skill") || event.getMessage().contains("bind")|| event.getMessage().contains("Skill")|| event.getMessage().contains("Bind")){
 				return;
 			}
 			else {

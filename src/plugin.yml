@@ -4,3 +4,4 @@ load: POSTWORLD
 version: 1.20
 depend: [Heroes]
 description: Provides Heroes Compatible Anti-Combat Log Capabilities
+ 
