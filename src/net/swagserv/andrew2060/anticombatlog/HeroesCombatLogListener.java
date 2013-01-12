@@ -47,11 +47,13 @@ public class HeroesCombatLogListener implements Listener{
 		if (!combatcheck) {
 			return;
 		}
-		else {
-			if (targetentity instanceof Player){
+		if (targetentity instanceof Player) {
+			if(h.getHealth() != 0) {
 				String target = ((Player) targetentity).getName();
-				p.damage(1000);
-				p.setHealth(0);
+				if((Player)targetentity == p) {
+					h.leaveCombat(LeaveCombatReason.LOGOUT);
+					return;
+				}
 				h.setHealth(0);
 				h.syncHealth();
 				h.syncExperience();		
@@ -62,10 +64,8 @@ public class HeroesCombatLogListener implements Listener{
 				}
 				return;
 			}
-			else {
-				h.leaveCombat(LeaveCombatReason.LOGOUT);
-				return;
-			}
-		}
+		} 
+		h.leaveCombat(LeaveCombatReason.LOGOUT);
 	}
 }
+
