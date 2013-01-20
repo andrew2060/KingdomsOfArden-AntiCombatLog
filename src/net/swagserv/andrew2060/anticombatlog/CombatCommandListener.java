@@ -2,7 +2,6 @@ package net.swagserv.andrew2060.anticombatlog;
 
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
-import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
@@ -20,11 +19,7 @@ public class CombatCommandListener implements Listener {
 	@EventHandler(priority=EventPriority.HIGHEST, ignoreCancelled = true)
 	public void onPlayerCommand(PlayerCommandPreprocessEvent event) {
 		Hero h = heroes.getCharacterManager().getHero(event.getPlayer());
-		LivingEntity targetentity = h.getCombatEffect().getLastCombatant();
-		if(h.isInCombat() == false) {
-			return; 
-		} 
-		if(!(targetentity instanceof Player)) {
+		if(!Util.isInCombatWithPlayer(h).inCombat) {
 			return;
 		}
 		if (event.getMessage().toUpperCase().contains("SKILL")
@@ -33,7 +28,6 @@ public class CombatCommandListener implements Listener {
 				|| event.getMessage().toUpperCase().contains("CD")
 				|| event.getMessage().toUpperCase().contains("ENEMY")
 				|| event.getMessage().toUpperCase().contains("HERO")){
-				//Faction Home is in a separate handler
 			return; 
 		}
 		event.setCancelled(true);
@@ -44,13 +38,9 @@ public class CombatCommandListener implements Listener {
 	public void onFactionCommand(AsyncPlayerChatEvent event) { 
 		if(event.getMessage().toUpperCase().contains("F HOME") || event.getMessage().toUpperCase().contains("F JAIL") || event.getMessage().toUpperCase().contains("F WARP")) {
 			Hero h = heroes.getCharacterManager().getHero(event.getPlayer());
-			if(h.isInCombat() == false) {
+			if(!Util.isInCombatWithPlayer(h).inCombat) {
 				return;
 			}
-			LivingEntity targetentity = h.getCombatEffect().getLastCombatant();
-			if(!(targetentity instanceof Player)) {
-				return;
-			}			
 			event.setCancelled(true);
 		}
 	}
@@ -58,12 +48,15 @@ public class CombatCommandListener implements Listener {
 	public void onPlayerTeleport(PlayerTeleportEvent event) {
 		Player p = event.getPlayer();
 		Hero h = heroes.getCharacterManager().getHero(p);
-		if(h.isInCombat() == false) {
+		if(!Util.isInCombatWithPlayer(h).inCombat) {
 			return;
 		}
 		if(!(event.getCause().equals(TeleportCause.COMMAND) || event.getCause().equals(TeleportCause.PLUGIN))) {
 			return;
 		}
 		event.setCancelled(true);
+		p.sendMessage(ChatColor.GRAY + "Teleport cancelled due to being in combat!");
 	}
+	
+	
 }

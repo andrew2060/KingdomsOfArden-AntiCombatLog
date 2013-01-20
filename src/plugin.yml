@@ -1,7 +1,7 @@
 name: Swagserv-AntiCombatLog
 main: net.swagserv.andrew2060.anticombatlog.AntiCombatLog
 load: POSTWORLD
-version: 1.50
+version: 1.60
 depend: [Heroes]
 description: Provides Heroes Compatible Anti-Combat Log Capabilities
  

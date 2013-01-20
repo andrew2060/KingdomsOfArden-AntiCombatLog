@@ -2,7 +2,6 @@ package net.swagserv.andrew2060.anticombatlog;
 
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
-import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
@@ -41,30 +40,27 @@ public class HeroesCombatLogListener implements Listener{
 	public void onPlayerQuit(PlayerQuitEvent event) {
 		Player p = event.getPlayer();
 		Hero h = heroes.getCharacterManager().getHero(event.getPlayer());
-		LivingEntity targetentity = h.getCombatEffect().getLastCombatant();
-		boolean combatcheck = h.isInCombat();
-		
-		if (!combatcheck) {
+		CombatInformation cI = Util.isInCombatWithPlayer(h);
+		if(!cI.inCombat) {
 			return;
 		}
-		if (targetentity instanceof Player) {
-			if(h.getHealth() != 0) {
-				String target = ((Player) targetentity).getName();
-				if((Player)targetentity == p) {
-					h.leaveCombat(LeaveCombatReason.LOGOUT);
-					return;
-				}
-				h.setHealth(0);
-				h.syncHealth();
-				h.syncExperience();		
-				Bukkit.getServer().broadcastMessage(ChatColor.AQUA + "[" + ChatColor.RED + "NOTICE" + ChatColor.AQUA + "]: " + p.getName() + " just CombatLogged against " + target + " and dropped their items!");
-				if(ess == true) {
-					essentials.getUser(p).addMail("You were automatically killed for pvp logging against " + target + "!");
-					return;
-				}
+		
+		if(h.getHealth() != 0) {
+			String target = cI.lastCombatant.getName();
+			if(cI.lastCombatant == p) {
+				h.leaveCombat(LeaveCombatReason.LOGOUT);
 				return;
 			}
-		} 
+			h.setHealth(0);
+			h.syncHealth();
+			h.syncExperience();		
+			Bukkit.getServer().broadcastMessage(ChatColor.AQUA + "[" + ChatColor.RED + "NOTICE" + ChatColor.AQUA + "]: " + p.getName() + " just CombatLogged against " + target + " and dropped their items!");
+			if(ess == true) {
+				essentials.getUser(p).addMail("You were automatically killed for pvp logging against " + target + "!");
+				return;
+			}
+			return;
+		}
 		h.leaveCombat(LeaveCombatReason.LOGOUT);
 	}
 }
