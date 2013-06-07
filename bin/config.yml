@@ -1,2 +1,56 @@
-commandblock: true
-essentialsnotify: true
+general:
+  logging:
+    enabled: true
+#Options for what to block
+block:
+  # Command Blocking while in Combat: 
+  # Bypass Permission - combatlog.bypass.command
+  command:
+    enabled: true
+    # Mode to block: whitelist or blacklist
+    mode: whitelist
+    # List of commands to be put on the whitelist, will only be used if mode is set to whitelist. All lowercase
+    # Only insert first word of a command
+    whitelist:
+      - bind
+      - cd
+      - hp
+      - skill
+      - skills
+      - msg
+  # List of commands to be put on the blacklist, will only be used if mode is set to blacklist. All lowercase
+    blacklist:
+      - home
+      - warp
+  # Teleport Blocking while in Combat
+  # Bypass Permission - combatlog.bypass.teleport
+  teleport:
+    # Block Teleports Caused by Commands, such as /home, /warp, /tp
+    blockCommandTeleports: true 
+    # Block Teleports Caused by Plugins, some common use cases are PvP Arenas and Warp Gates
+    # Note that this will also block most Teleporting Heroes Skills that are coded to Teleport using TeleportCause.PLUGIN, this can be circumvented by changing to a different TeleportCause
+    blockPluginTeleports: true
+# Economy Options - Requires Vault
+economy:
+  enabled: true
+  # Takes away a flat value, will not cause negative balance
+  flatvalue: 0.00    
+  # Takes away a percentage of current balance rounded to the nearest cent
+  # If both flat value and percent balance are enabled, the amount deducted will not stack
+  percentbalance: 25.00
+#Integration Options
+integration:
+  # Mail players that were punished for combat logging
+  essentials:
+    enabled: true
+    message: You were automatically killed for combat logging against %player%!
+  # Punish players for combat logging
+  battletracker:  
+    enabled: false
+    # The Name of the Battletracker Database 
+    tracker: pvp
+    #Add a pvp "loss" 
+    recordLossPerCombatLog: 1
+    eloLossPerCombatLog: 100
+    
+  
