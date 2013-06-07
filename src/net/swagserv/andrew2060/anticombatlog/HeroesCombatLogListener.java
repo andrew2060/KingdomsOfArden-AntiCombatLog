@@ -45,15 +45,13 @@ public class HeroesCombatLogListener implements Listener{
 			return;
 		}
 		
-		if(h.getHealth() != 0) {
+		if(p.getHealth() != 0) {
 			String target = cI.lastCombatant.getName();
 			if(cI.lastCombatant == p) {
 				h.leaveCombat(LeaveCombatReason.LOGOUT);
 				return;
 			}
-			h.setHealth(0);
-			h.syncHealth();
-			h.syncExperience();		
+			p.setHealth(0);
 			Bukkit.getServer().broadcastMessage(ChatColor.AQUA + "[" + ChatColor.RED + "NOTICE" + ChatColor.AQUA + "]: " + p.getName() + " just CombatLogged against " + target + " and dropped their items!");
 			if(ess == true) {
 				essentials.getUser(p).addMail("You were automatically killed for pvp logging against " + target + "!");

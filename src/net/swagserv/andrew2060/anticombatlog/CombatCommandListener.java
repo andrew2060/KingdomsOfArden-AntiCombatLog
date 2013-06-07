@@ -22,21 +22,27 @@ public class CombatCommandListener implements Listener {
 		if(!Util.isInCombatWithPlayer(h).inCombat) {
 			return;
 		}
-		if (event.getMessage().toUpperCase().contains("SKILL")
-				|| event.getMessage().toUpperCase().contains("BIND")
-				|| event.getMessage().toUpperCase().contains("HP")
-				|| event.getMessage().toUpperCase().contains("CD")
-				|| event.getMessage().toUpperCase().contains("ENEMY")
-				|| event.getMessage().toUpperCase().contains("HERO")){
+		Player player = event.getPlayer();
+		if(player.hasPermission("anticombatlog.commandbypass")) {
+			return;
+		}
+		String commandUpper = event.getMessage().toUpperCase();
+		if (commandUpper.contains("SKILL")
+				|| commandUpper.contains("BIND")
+				|| commandUpper.contains("HP")
+				|| commandUpper.contains("CD")
+				|| commandUpper.contains("ENEMY")
+				|| commandUpper.contains("HERO")
+				|| commandUpper.contains("SKILLS")){
 			return; 
 		}
 		event.setCancelled(true);
-		Player player = event.getPlayer();
 		player.sendMessage(ChatColor.AQUA + "[" + ChatColor.RED + "Notice" + ChatColor.AQUA + "]: You Cannot Use Commands While In Combat!");
 	}
 	@EventHandler(priority = EventPriority.LOWEST, ignoreCancelled = true)
 	public void onFactionCommand(AsyncPlayerChatEvent event) { 
-		if(event.getMessage().toUpperCase().contains("F HOME") || event.getMessage().toUpperCase().contains("F JAIL") || event.getMessage().toUpperCase().contains("F WARP")) {
+		String commandUpper = event.getMessage().toUpperCase();
+		if(commandUpper.contains("F HOME") || commandUpper.contains("F JAIL") || commandUpper.contains("F WARP")) {
 			Hero h = heroes.getCharacterManager().getHero(event.getPlayer());
 			if(!Util.isInCombatWithPlayer(h).inCombat) {
 				return;
@@ -47,6 +53,9 @@ public class CombatCommandListener implements Listener {
 	@EventHandler(priority = EventPriority.HIGHEST)
 	public void onPlayerTeleport(PlayerTeleportEvent event) {
 		Player p = event.getPlayer();
+		if(p.hasPermission("anticombatlog.tpbypass")) {
+			return;
+		}
 		Hero h = heroes.getCharacterManager().getHero(p);
 		if(!Util.isInCombatWithPlayer(h).inCombat) {
 			return;
