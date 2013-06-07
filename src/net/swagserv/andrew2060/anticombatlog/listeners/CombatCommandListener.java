@@ -1,4 +1,6 @@
-package net.swagserv.andrew2060.anticombatlog;
+package net.swagserv.andrew2060.anticombatlog.listeners;
+
+import net.swagserv.andrew2060.anticombatlog.Util;
 
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -19,7 +21,7 @@ public class CombatCommandListener implements Listener {
 	@EventHandler(priority=EventPriority.HIGHEST, ignoreCancelled = true)
 	public void onPlayerCommand(PlayerCommandPreprocessEvent event) {
 		Hero h = heroes.getCharacterManager().getHero(event.getPlayer());
-		if(!Util.isInCombatWithPlayer(h).inCombat) {
+		if(!Util.isInCombatWithPlayer(h).isInCombat()) {
 			return;
 		}
 		Player player = event.getPlayer();
@@ -44,7 +46,7 @@ public class CombatCommandListener implements Listener {
 		String commandUpper = event.getMessage().toUpperCase();
 		if(commandUpper.contains("F HOME") || commandUpper.contains("F JAIL") || commandUpper.contains("F WARP")) {
 			Hero h = heroes.getCharacterManager().getHero(event.getPlayer());
-			if(!Util.isInCombatWithPlayer(h).inCombat) {
+			if(!Util.isInCombatWithPlayer(h).isInCombat()) {
 				return;
 			}
 			event.setCancelled(true);
@@ -57,7 +59,7 @@ public class CombatCommandListener implements Listener {
 			return;
 		}
 		Hero h = heroes.getCharacterManager().getHero(p);
-		if(!Util.isInCombatWithPlayer(h).inCombat) {
+		if(!Util.isInCombatWithPlayer(h).isInCombat()) {
 			return;
 		}
 		if(!(event.getCause().equals(TeleportCause.COMMAND) || event.getCause().equals(TeleportCause.PLUGIN))) {

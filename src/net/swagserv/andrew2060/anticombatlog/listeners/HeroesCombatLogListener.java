@@ -1,4 +1,8 @@
-package net.swagserv.andrew2060.anticombatlog;
+package net.swagserv.andrew2060.anticombatlog.listeners;
+
+import net.swagserv.andrew2060.anticombatlog.AntiCombatLog;
+import net.swagserv.andrew2060.anticombatlog.CombatInformation;
+import net.swagserv.andrew2060.anticombatlog.Util;
 
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -41,13 +45,13 @@ public class HeroesCombatLogListener implements Listener{
 		Player p = event.getPlayer();
 		Hero h = heroes.getCharacterManager().getHero(event.getPlayer());
 		CombatInformation cI = Util.isInCombatWithPlayer(h);
-		if(!cI.inCombat) {
+		if(!cI.isInCombat()) {
 			return;
 		}
 		
 		if(p.getHealth() != 0) {
-			String target = cI.lastCombatant.getName();
-			if(cI.lastCombatant == p) {
+			String target = cI.getLastCombatant().getName();
+			if(cI.getLastCombatant() == p) {
 				h.leaveCombat(LeaveCombatReason.LOGOUT);
 				return;
 			}
