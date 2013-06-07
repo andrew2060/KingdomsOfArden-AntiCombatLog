@@ -1,8 +1,10 @@
 package net.swagserv.andrew2060.anticombatlog.listeners;
 
-import net.swagserv.andrew2060.anticombatlog.AntiCombatLog;
+import net.swagserv.andrew2060.anticombatlog.AntiCombatLogPlugin;
 import net.swagserv.andrew2060.anticombatlog.CombatInformation;
+import net.swagserv.andrew2060.anticombatlog.ConfigManager;
 import net.swagserv.andrew2060.anticombatlog.Util;
+import net.swagserv.andrew2060.anticombatlog.events.CombatLogEvent;
 
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -18,11 +20,17 @@ import com.earth2me.essentials.Essentials;
 import com.herocraftonline.heroes.Heroes;
 import com.herocraftonline.heroes.characters.Hero;
 import com.herocraftonline.heroes.characters.effects.CombatEffect.LeaveCombatReason;
-public class HeroesCombatLogListener implements Listener{
-	public static boolean ess;
-	AntiCombatLog plugin;
-	private Heroes heroes = (Heroes)Bukkit.getServer().getPluginManager().getPlugin("Heroes");
-	private Essentials essentials = (Essentials)Bukkit.getServer().getPluginManager().getPlugin("Essentials");
+
+public class CombatLogListener implements Listener{
+	AntiCombatLogPlugin plugin;
+	private Essentials essentials;
+	private Heroes heroes;
+	private ConfigManager config;
+	public CombatLogListener(Heroes heroes, AntiCombatLogPlugin plugin) {
+		this.heroes = heroes;
+		this.plugin = plugin;
+		this.config = plugin.getConfigManager();
+	}
 	@EventHandler(priority=EventPriority.HIGHEST)
 	public void onPlayerKick(PlayerKickEvent event) {
 		Hero h = heroes.getCharacterManager().getHero(event.getPlayer());
@@ -55,13 +63,21 @@ public class HeroesCombatLogListener implements Listener{
 				h.leaveCombat(LeaveCombatReason.LOGOUT);
 				return;
 			}
-			p.setHealth(0);
-			Bukkit.getServer().broadcastMessage(ChatColor.AQUA + "[" + ChatColor.RED + "NOTICE" + ChatColor.AQUA + "]: " + p.getName() + " just CombatLogged against " + target + " and dropped their items!");
-			if(ess == true) {
-				essentials.getUser(p).addMail("You were automatically killed for pvp logging against " + target + "!");
+			CombatLogEvent cLEvent = new CombatLogEvent(cI.getLastCombatant(),p);
+			Bukkit.getPluginManager().callEvent(cLEvent);
+			if(cLEvent.isCancelled()) {
+				return;
+			} else {
+				p.setHealth(0);
+				Bukkit.getServer().broadcastMessage(ChatColor.AQUA + "[" + ChatColor.RED + "NOTICE" + ChatColor.AQUA + "]: " + p.getName() + " just CombatLogged against " + target + " and dropped their items!");
+				if(config.essentialsIntegration == true) {
+					essentials.getUser(p).addMail(config.essIntegrationMessage.replace("%player%", target));
+				}
+				if(config.economyEnabled) {
+					
+				}
 				return;
 			}
-			return;
 		}
 		h.leaveCombat(LeaveCombatReason.LOGOUT);
 	}
