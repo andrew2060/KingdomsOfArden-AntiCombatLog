@@ -63,6 +63,9 @@ public class CombatLogListener implements Listener{
 				h.leaveCombat(LeaveCombatReason.LOGOUT);
 				return;
 			}
+			if(AntiCombatLogPlugin.permission.has(p, "combatlog.bypass.logoff")) {
+				return;
+			}
 			CombatLogEvent cLEvent = new CombatLogEvent(cI.getLastCombatant(),p);
 			Bukkit.getPluginManager().callEvent(cLEvent);
 			if(cLEvent.isCancelled()) {
@@ -74,7 +77,9 @@ public class CombatLogListener implements Listener{
 					essentials.getUser(p).addMail(config.essIntegrationMessage.replace("%player%", target));
 				}
 				if(config.economyEnabled) {
-					
+					double bal = AntiCombatLogPlugin.economy.getBalance(p.getName());
+					AntiCombatLogPlugin.economy.withdrawPlayer(p.getName(), config.economyFlatValue);
+					AntiCombatLogPlugin.economy.withdrawPlayer(p.getName(), config.economyPercentValue*bal);
 				}
 				return;
 			}

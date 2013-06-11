@@ -31,13 +31,11 @@ public class CommandWhitelistListener implements Listener {
 			return;
 		}
 		Player player = event.getPlayer();
-		if(player.hasPermission("combatlog.bypass.command")) {
+		if(AntiCombatLogPlugin.permission.has(player, "combatlog.bypass.command")) {
 			return;
 		}
-		String command = (event.getMessage() + " ");
-		int firstspace = command.indexOf(" ");
-		String commandLower = command.substring(0,firstspace).toLowerCase();
-		if(allowedCommands.contains(commandLower)) {
+		String command = event.getMessage().substring(1).split(" ")[0].toLowerCase();
+		if(allowedCommands.contains(command)) {
 			return;
 		} else {
 			event.setCancelled(true);

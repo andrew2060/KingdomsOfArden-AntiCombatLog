@@ -32,13 +32,11 @@ public class CommandBlacklistListener implements Listener {
 			return;
 		}
 		Player player = event.getPlayer();
-		if(player.hasPermission("combatlog.bypass.command")) {
+		if(AntiCombatLogPlugin.permission.has(player, "combatlog.bypass.command")) {
 			return;
 		}
-		String command = (event.getMessage() + " ");
-		int firstspace = command.indexOf(" ");
-		String commandLower = command.substring(0,firstspace).toLowerCase();
-		if(blockedCommands.contains(commandLower)) {
+		String command = event.getMessage().substring(1).split(" ")[0].toLowerCase();
+		if(blockedCommands.contains(command)) {
 			event.setCancelled(true);
 			player.sendMessage(ChatColor.AQUA + "[" + ChatColor.RED + "Notice" + ChatColor.AQUA + "]: You Cannot Use this Command While In Combat!");
 			return;

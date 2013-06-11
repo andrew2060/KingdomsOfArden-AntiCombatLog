@@ -1,4 +1,5 @@
 general:
+  #Enable logging for combat logging //NOT YET IMPLEMENTED
   logging:
     enabled: true
 #Options for what to block
@@ -17,7 +18,6 @@ block:
       - hp
       - skill
       - skills
-      - msg
   # List of commands to be put on the blacklist, will only be used if mode is set to blacklist. All lowercase
     blacklist:
       - home
@@ -30,6 +30,10 @@ block:
     # Block Teleports Caused by Plugins, some common use cases are PvP Arenas and Warp Gates
     # Note that this will also block most Teleporting Heroes Skills that are coded to Teleport using TeleportCause.PLUGIN, this can be circumvented by changing to a different TeleportCause
     blockPluginTeleports: true
+    # Ignore teleports leaving from these worlds
+    ignoredWorldsOutgoing: []
+    # Ignore teleports entering these worlds
+    # ignoreWorldsIncoming //NOT IMPLEMENTED YET
 # Economy Options - Requires Vault
 economy:
   enabled: true
@@ -43,14 +47,15 @@ integration:
   # Mail players that were punished for combat logging
   essentials:
     enabled: true
-    message: You were automatically killed for combat logging against %player%!
+    message: 'You were automatically killed for combat logging against %player%!'
   # Punish players for combat logging
   battletracker:  
     enabled: false
     # The Name of the Battletracker Database 
     tracker: pvp
-    #Add a pvp "loss" 
+    # Add a pvp "loss" 
     recordLossPerCombatLog: 1
+    # Amount of elo lost per combat log
     eloLossPerCombatLog: 100
     
   

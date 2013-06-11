@@ -37,7 +37,7 @@ public class ArenaListener implements Listener {
 	}
 	//Check if a player is in an arena when "combat logging"->if so cancel the combat log
 	//This prevents arena d/cs from wiping inventory
-	@EventHandler(priority = EventPriority.MONITOR, ignoreCancelled = true)
+	@EventHandler(priority = EventPriority.LOWEST, ignoreCancelled = true)
 	public void onCombatLog(CombatLogEvent event) {
 		Player p = event.getWhoLogged();
 		ArenaPlayer aP = BattleArena.toArenaPlayer(p);

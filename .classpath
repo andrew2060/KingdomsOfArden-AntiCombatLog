@@ -14,5 +14,11 @@
 		</attributes>
 	</classpathentry>
 	<classpathentry kind="lib" path="C:/Users/Andrew/Java Projects/lib/BattleArena.jar"/>
+	<classpathentry kind="lib" path="C:/Users/Andrew/Java Projects/lib/BattleTracker.jar"/>
+	<classpathentry kind="lib" path="C:/Users/Andrew/Java Projects/lib/Vault.jar">
+		<attributes>
+			<attribute name="javadoc_location" value="http://mythcraft.dyndns.org/javadoc/vault/"/>
+		</attributes>
+	</classpathentry>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

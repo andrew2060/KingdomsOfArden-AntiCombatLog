@@ -1,7 +1,11 @@
 package net.swagserv.andrew2060.anticombatlog;
 
+import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
+import org.bukkit.Bukkit;
+import org.bukkit.World;
 import org.bukkit.configuration.file.FileConfiguration;
 
 public class ConfigManager {
@@ -22,7 +26,11 @@ public class ConfigManager {
 	public final double economyPercentValue; 
 	
 	public final boolean battleTrackerIntegration;
+	public final String trackerName;
+	public final int raiseLossRecord;
 	public final int eloLoss;
+
+	public final List<World> ignoredWorldsTPOutgoing;
 
 	
 	public ConfigManager(AntiCombatLogPlugin plugin) {
@@ -46,7 +54,15 @@ public class ConfigManager {
 		}
 		this.blockCommandTeleports = config.getBoolean("block.teleport.blockCommandTeleports");
 		this.blockPluginTeleports = config.getBoolean("block.teleport.blockPluginTeleports");
-		
+		Iterator<String> worlds = config.getStringList("block.teleport.ignoredWorldsOutgoing").iterator();
+		this.ignoredWorldsTPOutgoing = new ArrayList<World>();
+		while(worlds.hasNext()) {
+			String next = worlds.next();
+			World w = Bukkit.getWorld(next);
+			if(w != null) {
+				ignoredWorldsTPOutgoing.add(w);
+			}
+		}
 		this.economyEnabled = config.getBoolean("economy.enabled");
 		if(economyEnabled) {
 			this.economyFlatValue = config.getDouble("economy.flatvalue");
@@ -60,14 +76,19 @@ public class ConfigManager {
 		if(essentialsIntegration) {
 			this.essIntegrationMessage = config.getString("integration.essentials.message");
 		} else {
-			this.essIntegrationMessage = "";
+			this.essIntegrationMessage = null;
 		}
 		this.battleTrackerIntegration = config.getBoolean("integration.battletracker.enabled",false);
 		if(battleTrackerIntegration) {
-			this.eloLoss = config.getInt("integration.battletracker.lossPerCombatLog");
+			this.trackerName = config.getString("integration.battletracker.tracker");
+			this.raiseLossRecord = config.getInt("integration.battletracker.recordLossPerCombatLog");
+			this.eloLoss = config.getInt("integration.battletracker.eloLossPerCombatLog");
 		} else {
+			this.trackerName = null;
 			this.eloLoss = 0;
+			this.raiseLossRecord = 0;
 		}
+		
 	}
 
 }
