@@ -1,5 +1,5 @@
-name: Swagserv-AntiCombatLog
-main: net.swagserv.andrew2060.anticombatlog.AntiCombatLogPlugin
+name: KingdomsOfArden-AntiCombatLog
+main: net.kingdomsofarden.andrew2060.anticombatlog.AntiCombatLogPlugin
 load: POSTWORLD
 version: 2.10
 depend: [Heroes, BattleArena, BattleTracker]
