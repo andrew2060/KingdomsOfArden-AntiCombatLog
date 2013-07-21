@@ -42,16 +42,17 @@
 		<name>Kingdoms of Arden Development</name>
 		<url>www.kingdomsofarden.net</url>
 	</organization>
-	<dependencies>
+	    <dependencies>
+			<dependency>
+			<groupId>org.spigotmc</groupId>
+			<artifactId>spigot-api</artifactId>
+			<version>1.6.2-R0.1-SNAPSHOT</version>
+			<type>jar</type>
+		</dependency>
 		<dependency>
 			<groupId>com.herocraftonline.heroes</groupId>
 			<artifactId>Heroes</artifactId>
 			<version>1.5.3-SNAPSHOT</version>
-		</dependency>
-		<dependency>
-			<groupId>org.spigotmc</groupId>
-			<artifactId>spigot-api</artifactId>
-			<version>1.6.2-R0.1-SNAPSHOT</version>
 		</dependency>
 		<dependency>
 			<groupId>net.milkbowl.vault</groupId>
