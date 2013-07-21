@@ -1,24 +1,34 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <classpath>
-	<classpathentry kind="src" path="src"/>
-	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
-	<classpathentry kind="lib" path="C:/Users/Andrew/Java Projects/lib/Heroes.jar">
+	<classpathentry kind="src" path="src/main/java"/>
+	<classpathentry kind="src" path="src/main/resources"/>
+	<classpathentry kind="lib" path="C:/Users/Andrew/Projects/lib/Heroes.jar">
 		<attributes>
 			<attribute name="javadoc_location" value="http://ci.herocraftonline.com/job/Heroes/javadoc"/>
 		</attributes>
 	</classpathentry>
-	<classpathentry kind="lib" path="C:/Users/Andrew/Java Projects/lib/Essentials.jar"/>
-	<classpathentry kind="lib" path="C:/Users/Andrew/Java Projects/lib/Libkit.jar" sourcepath="C:/Users/Andrew/Java Projects/lib/src/BukkitSRC.zip">
+	<classpathentry kind="lib" path="C:/Users/Andrew/Projects/lib/Essentials.jar"/>
+	<classpathentry kind="lib" path="C:/Users/Andrew/Projects/lib/Libkit.jar" sourcepath="C:/Users/Andrew/Java Projects/lib/src/BukkitSRC.zip">
 		<attributes>
 			<attribute name="javadoc_location" value="file:/C:/Users/Andrew/Java Projects/lib/Libkit-JD/"/>
 		</attributes>
 	</classpathentry>
-	<classpathentry kind="lib" path="C:/Users/Andrew/Java Projects/lib/BattleArena.jar"/>
-	<classpathentry kind="lib" path="C:/Users/Andrew/Java Projects/lib/BattleTracker.jar"/>
-	<classpathentry kind="lib" path="C:/Users/Andrew/Java Projects/lib/Vault.jar">
+	<classpathentry kind="lib" path="C:/Users/Andrew/Projects/lib/BattleArena.jar"/>
+	<classpathentry kind="lib" path="C:/Users/Andrew/Projects/lib/BattleTracker.jar"/>
+	<classpathentry kind="lib" path="C:/Users/Andrew/Projects/lib/Vault.jar">
 		<attributes>
 			<attribute name="javadoc_location" value="http://mythcraft.dyndns.org/javadoc/vault/"/>
 		</attributes>
 	</classpathentry>
-	<classpathentry kind="output" path="bin"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/J2SE-1.5">
+		<attributes>
+			<attribute name="maven.pomderived" value="true"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry kind="con" path="org.eclipse.m2e.MAVEN2_CLASSPATH_CONTAINER">
+		<attributes>
+			<attribute name="maven.pomderived" value="true"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry kind="output" path="target/classes"/>
 </classpath>

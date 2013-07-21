@@ -19,7 +19,7 @@ public class BattleTrackerListener implements Listener {
 	public void onCombatLog(CombatLogEvent event) {
 		PlayerStat loggerStats = Tracker.getInterface(config.trackerName).getPlayerRecord(event.getWhoLogged());
 		loggerStats.setLosses(loggerStats.getLosses() + config.raiseLossRecord);
-		loggerStats.setRanking(loggerStats.getRanking() - config.eloLoss);
+		loggerStats.setRating(loggerStats.getRating() - config.eloLoss);
 	}
 	
 }
