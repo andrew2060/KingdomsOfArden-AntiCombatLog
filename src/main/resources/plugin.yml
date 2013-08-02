@@ -1,7 +1,7 @@
 name: KingdomsOfArden-AntiCombatLog
 main: net.kingdomsofarden.andrew2060.anticombatlog.AntiCombatLogPlugin
 load: POSTWORLD
-version: 2.0-RC
+version: 2.0
 depend: [Heroes]
 softdepend: [BattleArena, BattleTracker, Essentials]
 description: Provides Heroes Compatible Anti-Combat Log Capabilities
