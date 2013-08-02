@@ -73,7 +73,7 @@ public class CombatLogListener implements Listener{
 			} else {
 				p.setHealth(0D);
 				Bukkit.getServer().broadcastMessage(ChatColor.AQUA + "[" + ChatColor.RED + "NOTICE" + ChatColor.AQUA + "]: " + p.getName() + " just CombatLogged against " + target + " and dropped their items!");
-				if(config.essentialsIntegration == true) {
+				if(config.essentialsIntegration) {
 					essentials.getUser(p).addMail(config.essIntegrationMessage.replace("%player%", target));
 				}
 				if(config.economyEnabled) {
