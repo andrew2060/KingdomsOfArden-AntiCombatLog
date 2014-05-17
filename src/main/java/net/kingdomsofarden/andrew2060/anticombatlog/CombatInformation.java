@@ -16,7 +16,7 @@ public class CombatInformation {
 		return inCombat;
 	}
 	/**
-	 * @param set whether a player is in Combat
+	 * @param inCombat set whether a player is in Combat
 	 */
 	public void setInCombat(boolean inCombat) {
 		this.inCombat = inCombat;

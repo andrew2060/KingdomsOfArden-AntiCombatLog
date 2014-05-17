@@ -57,7 +57,7 @@ public class CombatLogListener implements Listener{
 			return;
 		}
 		
-		if(p.getHealth() != 0) {
+		if(!p.isDead()) {
 			String target = cI.getLastCombatant().getName();
 			if(cI.getLastCombatant() == p) {
 				h.leaveCombat(LeaveCombatReason.LOGOUT);
